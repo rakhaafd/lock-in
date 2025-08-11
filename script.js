@@ -15,8 +15,27 @@ $(document).ready(function () {
         localStorage.setItem('theme', newTheme);
     });
 
+    // Hamburger menu toggle
+    $('#hamburgerBtn').click(function () {
+        $('#sidebar').toggleClass('active');
+    });
+
+    // Close sidebar when clicking a nav link on mobile
+    $('.sidebar nav a').click(function (e) {
+        e.preventDefault();
+        $('.sidebar nav a').removeClass('active');
+        $(this).addClass('active');
+        const target = $(this).attr('href');
+        $('html, body').animate({
+            scrollTop: $(target).offset().top - 20
+        }, 500);
+        if ($(window).width() <= 768) {
+            $('#sidebar').removeClass('active');
+        }
+    });
+
     // Typing animation for title
-    const $typingText = $(".sidebar h1");
+    const $typingText = $(".sidebar h1, .mobile-header h1");
     const text = "Lock-in.";
     let index = 0;
     let isTyping = true;
@@ -49,17 +68,6 @@ $(document).ready(function () {
         const now = new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" });
         $("#datetime").text(now);
     }, 1000);
-
-    // Sidebar navigation
-    $(".sidebar nav a").click(function (e) {
-        e.preventDefault();
-        $(".sidebar nav a").removeClass("active");
-        $(this).addClass("active");
-        const target = $(this).attr("href");
-        $("html, body").animate({
-            scrollTop: $(target).offset().top - 20
-        }, 500);
-    });
 
     let interval;
     let remaining = 0;
